@@ -1,0 +1,29 @@
+.env
+# PHP logs & runtime
+logs/
+*.log
+cache/
+tmp/
+sessions/
+
+
+# Generated files
+
+
+# Dependency directories (for future extensions)
+vendor/
+node_modules/
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# PHPUnit / Coverage
+coverage/
+phpunit.xml
