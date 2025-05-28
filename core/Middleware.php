@@ -7,6 +7,9 @@ class Middleware
 
     public function check(array $permissions = [])
     {
+        $authenticated = false;
+        $userRoles = $_SESSION['user']['roles'] ?? [];
+        $hasPermission = false;
         // Check if user is not authenticated
         if(in_array('not_authenticated', $permissions)) {
             return;
@@ -16,17 +19,33 @@ class Middleware
             // If user is not authenticated, redirect to login page
             header('Location: index.php?url=login');
             exit;
+        }else{
+            $authenticated = true;
         }
-        // if user is global_admin, skip permission checks
+        // if user is global_admin, skip userpermission checks
         if(in_array('global_admin', $_SESSION['user']['roles'])) {
             return;
         }
+        if ($authenticated && 'authenticated' === $permissions[0]) {
+            // If user is authenticated, but no permissions are required, return
+            return;
+        }
         // Check if user has the required permissions
-        if(!empty($permissions) && !in_array($_SESSION['user']['roles'], $permissions)) {
-            // If user does not have the required permissions, display 403 error
+        foreach ($userRoles as $role) {
+            if (in_array($role, $permissions)) {
+                $hasPermission = true;
+                break;
+            }
+        }
+
+
+        if (!$hasPermission) {
             http_response_code(403);
             echo "403 - Forbidden: You do not have permission to access this page.";
             echo "<br>Required permissions: " . implode(', ', $permissions);
+            echo "<br>Your permissions: " . implode(', ', $userRoles);
+            echo "<br><br>";
+            echo '<button onclick="history.back()">← Back</button>';
             exit;
         }
     }

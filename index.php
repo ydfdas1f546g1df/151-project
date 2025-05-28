@@ -22,6 +22,10 @@ spl_autoload_register(function ($class) {
         return;
     }
 
+    // 3. models  ← NEW
+    $file = 'models/' . basename($classPath) . '.php';
+    if (file_exists($file)) { require_once $file; return; }
+
     // Extend here if needed (e.g. models, modules)
     http_response_code(500);
     echo "Autoload error: $classPath not found in core/ or controllers/";

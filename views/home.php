@@ -2,7 +2,7 @@
 <ul>
     <li>
         <h3>User Management</h3>
-        <a href="index.php?url=usermgmgt/index">Main Page</a>
+        <a href="index.php?url=usermgmt/index">View all users</a>
     </li>
     <li>
         <h3>Debbugging</h3>

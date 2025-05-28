@@ -134,3 +134,55 @@ th {
 .mt-1 { margin-top: 1rem; }
 .mb-1 { margin-bottom: 1rem; }
 .text-center { text-align: center; }
+
+/* ---------- Pretty horizontal header ------------------------------------ */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--primary);
+    color: #fff;
+    padding: .75rem 1.25rem;
+    box-shadow: 0 .25rem .75rem rgba(0,0,0,.08);
+}
+
+/* Brand / page title */
+.site-header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: #fff;
+}
+
+/* Nav bar */
+.site-nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.site-nav a {
+    display: block;
+    padding: .4rem .75rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-decoration: none;
+    color: #fff;
+    transition: background var(--transition), color var(--transition);
+}
+
+.site-nav a:hover,
+.site-nav a:focus {
+    background: var(--primary-light);
+    color: var(--grey-900);
+}
+
+/* username tag aligned right */
+.site-nav .username {
+    margin-left: 1rem;         /* small gap after last nav link */
+    font-style: italic;
+    opacity: .85;
+}

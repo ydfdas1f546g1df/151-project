@@ -116,16 +116,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sql_files = glob($sql_dir . '*.sql');
 
             natsort($sql_files);
-
+            $version = -1;
             foreach ($sql_files as $sql_file) {
                 $sql = file_get_contents($sql_file);
+                preg_match('/^(\d+)/', basename($sql_file), $matches);
+                $version = $matches[1] ?? null;
                 try {
                     $pdo->exec($sql);
+                    $stmt = $pdo->prepare("INSERT INTO APPLICATION_VERSION (version) VALUES (:version)");
+                    $stmt->bindParam(':version', $version);
                     echo '<div style="color:green;">Executed ' . basename($sql_file) . ' successfully.</div>';
+
                 } catch (PDOException $e) {
                     echo '<div style="color:red;">Error in ' . basename($sql_file) . ': ' . $e->getMessage() . '</div>';
                     echo '<br><a href="setup.php">Go back to setup</a>';
                 }
+
+            }
+
+            // INSERT the version into the database
+            $stmt = $pdo->prepare("INSERT INTO APPLICATION_VERSION (version) VALUES (:version)");
+            $stmt->bindParam(':version', $version);
+            if ($stmt->execute()) {
+                echo '<div style="color:green;">Application version set to ' . $version . '.</div>';
+            } else {
+                echo '<div style="color:red;">Failed to set application version.</div>';
             }
 
 

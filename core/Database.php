@@ -2,6 +2,8 @@
 
 namespace core;
 
+use PDOException;
+
 class Database
 {
     private $host = DB_HOST; // Database host
@@ -52,29 +54,61 @@ class Database
         return $this->stmt->execute();
     }
 
-    // Method to fetch all results as an associative array
-    public function results()
+    public function executeFile($file)
+    {
+        $this->dbh->beginTransaction();
+        // Read the SQL file content
+        $sql = file_get_contents($file);
+        try {
+            $ret = $this->dbh->exec($sql);
+        } catch (PDOException $e) {
+            // If an error occurs, roll back the transaction
+            $this->dbh->rollBack();
+            // Display error message
+            echo "Error executing file $file: " . $e->getMessage();
+            return $ret;
+        }
+        // Commit the transaction if successful
+        $this->dbh->commit();
+        return $ret;
+    }
+
+
+// Method to fetch all results as an associative array
+    public
+    function results()
     {
         // Fetch all results to an associative array and return them
         return $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Method to fetch a single result to an associative array
-    public function result() {
+    public
+    function single()
+    {
+        // identical behaviour; keeps older code working
+        return $this->result();
+    }
+
+// Method to fetch a single result to an associative array
+    public
+    function result()
+    {
         // Execute the statement
         $this->execute();
         // Fetch and return a single result
         return $this->stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    // Method to bind a value to a parameter in the SQL statement
-    public function bind($param, $value): void
+// Method to bind a value to a parameter in the SQL statement
+    public
+    function bind($param, $value): void
     {
         // Bind the value to the parameter
         $this->stmt->bindValue($param, $value);
     }
 
-    public function prepare($sql)
+    public
+    function prepare($sql)
     {
         // Prepare the SQL statement
         $this->stmt = $this->dbh->prepare($sql);

@@ -1,0 +1,57 @@
+/* ---------- User-management page wrapper --------------------------------- */
+.usermgmt-page {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-block: 2rem;
+}
+
+/* ---------- Heading ------------------------------------------------------ */
+.usermgmt-page h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ---------- Table -------------------------------------------------------- */
+.usermgmt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 .25rem .75rem rgba(0,0,0,.06);
+    border-radius: var(--radius);
+    overflow: hidden;              /* rounds the top-row corners */
+}
+
+.usermgmt-table th,
+.usermgmt-table td {
+    padding: .75rem 1rem;
+    text-align: left;
+}
+
+.usermgmt-table thead th {
+    background: var(--grey-100);
+    font-weight: 600;
+    border-bottom: 2px solid var(--grey-100);
+}
+
+.usermgmt-table tbody tr:nth-child(odd) {
+    background: #fafafa;
+}
+
+.usermgmt-table tbody tr:hover {
+    background: var(--primary-light);
+    color: #000;
+}
+
+/* ---------- Action links ------------------------------------------------- */
+.table-actions a {
+    text-decoration: none;
+    font-size: .9rem;
+    margin-inline: .25rem;
+    color: var(--primary);
+    transition: color var(--transition);
+}
+.table-actions a:hover {
+    color: var(--primary-dark);
+}
