@@ -5,6 +5,7 @@ logs/
 cache/
 tmp/
 sessions/
+config/config.php
 
 
 # Generated files

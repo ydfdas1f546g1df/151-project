@@ -1,0 +1,1 @@
+INSERT INTO permission (role_name) VALUE ('Global Admin');

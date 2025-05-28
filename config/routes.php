@@ -2,6 +2,6 @@
 $routes = [
     '' => [
         'controller' => 'home',
-        'action' => 'index'
+        'method' => 'index'
         ],
     ];

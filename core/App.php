@@ -51,10 +51,12 @@ class App
         }
 
         // Include the controller file
-        require_once '../app/controllers/' . $this->controller . '.php';
+        require_once 'controllers/' . $this->controller . '.php';
 
-        // Create an object (Instantiate controller) from the imported controller
-        $this->controller = new $this->controller;
+
+        $controllerClass = 'controllers\\' . $this->controller;
+        $this->controller = new $controllerClass;
+
 
         // Call the method of the controller with the parameters
         // --------------------------------------------------------------------------------------------------------------------
