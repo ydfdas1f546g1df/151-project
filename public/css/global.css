@@ -1,0 +1,136 @@
+/* ---------- CSS reset (trimmed to essentials) ------------------------------ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- CSS custom-properties (theme tokens) --------------------------- */
+:root {
+    --primary-h: 220;            /* hue 220 ≈ blue */
+    --primary-s: 83%;
+    --primary-l: 57%;
+
+    --primary: hsl(var(--primary-h) var(--primary-s) var(--primary-l));
+    --primary-dark: hsl(var(--primary-h) var(--primary-s) calc(var(--primary-l) - 20%));
+    --primary-light: hsl(var(--primary-h) var(--primary-s) calc(var(--primary-l) + 15%));
+
+    --grey-900: #1a1a1a;
+    --grey-700: #444;
+    --grey-100: #f6f6f6;
+
+    --radius: .4rem;
+    --transition: .2s ease-in-out;
+    --font-base: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Base typography ------------------------------------------------- */
+html { font-size: 100%; }          /* 16 px */
+body {
+    font-family: var(--font-base);
+    line-height: 1.5;
+    color: var(--grey-900);
+    background: var(--grey-100);
+}
+
+/* Headings: scale responsively without clamp() for IE 11 fallback concerns */
+h1 { font-size: 1.8rem; margin-bottom: .75rem; font-weight: 600; }
+h2 { font-size: 1.5rem; margin-bottom: .65rem; font-weight: 600; }
+h3 { font-size: 1.25rem; margin-bottom: .5rem;  font-weight: 600; }
+
+/* ---------- Layout utilities ---------------------------------------------- */
+.container {
+    width: min(90%, 70rem);
+    margin-inline: auto;
+    padding-block: 1.5rem;
+}
+
+/* Simple flex helpers */
+.flex     { display: flex; }
+.items-c  { align-items: center; }
+.just-c   { justify-content: center; }
+
+/* ---------- Forms ---------------------------------------------------------- */
+label {
+    display: block;
+    margin-block: .5rem .25rem;
+    font-weight: 500;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: .55rem .75rem;
+    border: 1px solid var(--grey-700);
+    border-radius: var(--radius);
+    font: inherit;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 .15rem var(--primary-light);
+}
+
+/* ---------- Buttons -------------------------------------------------------- */
+button,
+input[type="submit"],
+input[type="button"] {
+    cursor: pointer;
+    padding: .55rem 1.25rem;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    transition: background var(--transition);
+}
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: var(--primary-dark);
+}
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* ---------- Alerts --------------------------------------------------------- */
+.alert {
+    padding: .75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+}
+.alert-error   { background: #ffe5e5; color: #b70000; }
+.alert-success { background: #e7f7e7; color: #107910; }
+
+/* ---------- Tables (ERP modules will need them) --------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1rem;
+    background: #fff;
+}
+th,
+td {
+    padding: .6rem .75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--grey-100);
+}
+th {
+    background: var(--grey-100);
+    font-weight: 600;
+}
+
+/* ---------- Utilities ------------------------------------------------------ */
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.text-center { text-align: center; }

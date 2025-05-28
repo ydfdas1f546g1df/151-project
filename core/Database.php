@@ -2,7 +2,7 @@
 
 namespace core;
 
-class database
+class Database
 {
     private $host = DB_HOST; // Database host
     private $user = DB_USER; // Database username
@@ -23,14 +23,14 @@ class database
         $options = [
             // Use persistent connection
             // (i.e., This prevents establishing a new connection each time when an instance of Database (object) is created.
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION // Throw exceptions on errors
+            \PDO::ATTR_PERSISTENT => true,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION // Throw exceptions on errors
         ];
 
         // Try to connect to the database by creating a new PDO instance
         try {
-            $this->dbh = new PDO($dsn, $this->user, $this->password, $options);
-        } catch (PDOException $e) {
+            $this->dbh = new \PDO($dsn, $this->user, $this->password, $options);
+        } catch (\PDOException $e) {
             // If an error occurs, store the error message
             $this->error = $e->getMessage();
             // Display error message
@@ -56,7 +56,7 @@ class database
     public function results()
     {
         // Fetch all results to an associative array and return them
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     // Method to fetch a single result to an associative array
@@ -64,7 +64,7 @@ class database
         // Execute the statement
         $this->execute();
         // Fetch and return a single result
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     // Method to bind a value to a parameter in the SQL statement
@@ -72,5 +72,11 @@ class database
     {
         // Bind the value to the parameter
         $this->stmt->bindValue($param, $value);
+    }
+
+    public function prepare($sql)
+    {
+        // Prepare the SQL statement
+        $this->stmt = $this->dbh->prepare($sql);
     }
 }

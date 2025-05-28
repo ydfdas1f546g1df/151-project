@@ -13,6 +13,9 @@ class App
     // Initialize parameters to be passed to the method
     protected $params = [];
 
+    // Permissions array to store user permissions
+    protected $permissions = [];
+
 
 // Constructor method
     public function __construct()
@@ -43,15 +46,28 @@ class App
             $this->method = $routes[$route]['method'];
             // Set the remaining parts of the url to the params
             $this->params = array_slice($urlParts, 2);
+            // Set the permissions based on the route configuration
+            if (isset($routes[$route]['permissions'])) {
+                $this->permissions = $routes[$route]['permissions'];
+            } else {
+                $this->permissions = [];
+            }
 
         } else {
             // If the route is not found, display a 404 error message
             echo "404 - Route Not found!";
+            print_r($urlParts);
+            http_response_code(404);
             return;
         }
 
+        require_once 'core/Middleware.php';
+        $middleware = new Middleware();
+        $middleware->check($this->permissions);
+
         // Include the controller file
         require_once 'controllers/' . $this->controller . '.php';
+
 
 
         $controllerClass = 'controllers\\' . $this->controller;
