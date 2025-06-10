@@ -31,13 +31,13 @@ spl_autoload_register(function ($class) {
     echo "Autoload error: $classPath not found in core/ or controllers/";
     exit;
 });
-
+/*
 // Check if server is initialized
 if (!file_exists('config/config.php')){
     include 'setup.php';
     die('Server will be initialization.');
 }
-
+*/
 
 // Load config constants
 require_once 'config/config.php';

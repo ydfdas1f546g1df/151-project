@@ -1,4 +1,34 @@
 <?php
+
+spl_autoload_register(function ($class) {
+    $classPath = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+
+    // Try core first
+    $coreFile = 'core/' . basename($classPath) . '.php';
+    if (file_exists($coreFile)) {
+        require_once $coreFile;
+        return;
+    }
+
+    // Then try controllers
+    $controllerFile = 'controllers/' . basename($classPath) . '.php';
+    if (file_exists($controllerFile)) {
+        require_once $controllerFile;
+        return;
+    }
+
+    // 3. models  ← NEW
+    $file = 'models/' . basename($classPath) . '.php';
+    if (file_exists($file)) { require_once $file; return; }
+
+    // Extend here if needed (e.g. models, modules)
+    http_response_code(500);
+    echo "Autoload error: $classPath not found in core/ or controllers/";
+    exit;
+});
+
+require_once 'config/config.php';
+
 $version_model = new \models\Version();
 $latest_version = $version_model->getLatestVersion();
 if ($latest_version !== null) {
@@ -28,3 +58,23 @@ if ($latest_version !== null) {
         }
     }
 }
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Complete</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Complete</h1>
+        <p>Your application has been successfully updated to the latest version.</p>
+        <a href="index.php" class="btn">Go to Dashboard</a>
+    </div>
+    </body>
+</html>
+
+

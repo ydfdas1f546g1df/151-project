@@ -56,21 +56,27 @@ class Database
 
     public function executeFile($file)
     {
-        $this->dbh->beginTransaction();
-        // Read the SQL file content
-        $sql = file_get_contents($file);
         try {
+            $sql = file_get_contents($file);
+            if ($sql === false) {
+                throw new \RuntimeException("Could not read file: $file");
+            }
+
+            $this->dbh->beginTransaction();
             $ret = $this->dbh->exec($sql);
-        } catch (PDOException $e) {
-            // If an error occurs, roll back the transaction
-            $this->dbh->rollBack();
-            // Display error message
-            echo "Error executing file $file: " . $e->getMessage();
+            $this->dbh->commit();
             return $ret;
+
+        } catch (\PDOException $e) {
+            if ($this->dbh->inTransaction()) {
+                $this->dbh->rollBack();
+            }
+            echo "PDO Error executing file $file: " . $e->getMessage();
+            return false;
+        } catch (\RuntimeException $e) {
+            echo "Runtime Error executing file $file: " . $e->getMessage();
+            return false;
         }
-        // Commit the transaction if successful
-        $this->dbh->commit();
-        return $ret;
     }
 
 

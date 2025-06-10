@@ -23,6 +23,7 @@ $title = isset($title) ? $title : 'ERP KSH';
             <ul>
                 <li><a href="index.php?url=home">Home</a></li>
                 <li><a href="index.php?url=usermgmt/index">User Management</a></li>
+                <li><a href="index.php?url=productmgmt/index">Product Management</a></li>
                 <li><a href="index.php?url=logout">Logout</a></li>
                 <?php if (!empty($_SESSION['user']['username'])): ?>
                     <li class="username">Username: <?= htmlspecialchars($_SESSION['user']['username']) ?></li>
